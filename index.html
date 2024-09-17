@@ -3,10 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hello World</title>
+    <title>Clientes</title>
+    <style>
+        table {
+            width: 50%;
+            border-collapse: collapse;
+            margin: 20px auto;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 10px;
+            text-align: center;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
 </head>
 <body>
-    <h1>Hello World</h1>
-    <p>Esta é uma página HTML básica com uma mensagem de exemplo.</p>
+    <h1 style="text-align: center;">Lista de Clientes</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>Email</th>
+                <th>Telefone</th>
+                <th>Data de Criação</th>
+            </tr>
+        </thead>
+        <tbody id="tabela-clientes">
+        </tbody>
+    </table>
+
+    <script>
+        // Fazer requisição para o servidor Node.js
+        fetch('/clientes')
+        .then(response => response.json())
+        .then(data => {
+            const tabelaClientes = document.getElementById('tabela-clientes');
+            data.forEach(cliente => {
+                const row = `<tr>
+                    <td>${cliente.id}</td>
+                    <td>${cliente.nome}</td>
+                    <td>${cliente.email}</td>
+                    <td>${cliente.telefone}</td>
+                    <td>${cliente.data_criacao}</td>
+                </tr>`;
+                tabelaClientes.innerHTML += row;
+            });
+        })
+        .catch(error => console.error('Erro ao carregar os clientes:', error));
+    </script>
 </body>
 </html>
